@@ -77,10 +77,6 @@ def image_builder(img_array):
     for i in img_array:
         img_string = img_string + i
 
-    img_string = img_string.replace('0','a')
-    img_string = img_string.replace('1','0')
-    img_string = img_string.replace('a','1')
-
     if len(img_string) > expected_data:
         img_string = img_string[:expected_data]
 
