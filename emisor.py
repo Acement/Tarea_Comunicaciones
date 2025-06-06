@@ -4,7 +4,7 @@ import time
 # === CONFIGURA ESTO PRIMERO ===
 PUERTO = "/dev/ttyACM0"       # Cambia según tu PC (ej: 'COM4', '/dev/ttyUSB0', etc.)
 BAUDIOS = 9600
-TIEMPO_ENTRE_PAQUETES = 1  # segundos entre paquetes
+TIEMPO_ENTRE_PAQUETES = 0.2  # segundos entre paquetes
 
 # === CARGAR ARCHIVO CON MATRIZ DE BITS ===
 with open("paquetes/paq.txt", "r") as f:

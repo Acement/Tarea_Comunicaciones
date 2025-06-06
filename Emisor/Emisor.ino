@@ -75,11 +75,14 @@ void loop() {
     vw_wait_tx();
 
     digitalWrite(13, HIGH);
-    delay(200);
+    delay(50);
     digitalWrite(13, LOW);
+
+    
 
     if (secuencia == 43){
       secuencia = 0;
+
     }
 
 
@@ -87,7 +90,6 @@ void loop() {
   for (int i = 0; i < 7; i++) {
     printByteAsBits(paquete[i]);
   }
-  Serial.println("\n");
 
     bytesRecibidos = 0;
   }
