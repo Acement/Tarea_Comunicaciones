@@ -51,14 +51,21 @@ void setup() {
   pinMode(13, OUTPUT);
   Serial.begin(9600);
   Serial.println("Configurando envío...");
+  digitalWrite(13, HIGH);
+  delay(25);
+  digitalWrite(13, LOW);
 }
 
 void loop() {
 
   while (Serial.available() > 0 && bytesRecibidos < 3) {
     buffer[bytesRecibidos++] = Serial.read();
+    digitalWrite(13, HIGH);
+    delay(25);
+    digitalWrite(13, LOW);
   }
 
+  
 
   if (bytesRecibidos == 3) {
     uint8_t paquete[7];
@@ -70,19 +77,27 @@ void loop() {
     paquete[5] = buffer[2];
     paquete[6] = crc8(paquete, 6);
   
+    digitalWrite(13, HIGH);
 
     vw_send(paquete, sizeof(paquete));
     vw_wait_tx();
 
-    digitalWrite(13, HIGH);
-    delay(50);
+    
+    delay(25);
     digitalWrite(13, LOW);
+    
 
     
 
     if (secuencia == 43){
       secuencia = 0;
 
+      for (int i = 0; i < sizeof(paquete); i++){
+        paquete[i] = NULL;
+      }
+      for (int i = 0; i < sizeof(buffer); i){
+        buffer[i] = NULL;
+      }
     }
 
 
