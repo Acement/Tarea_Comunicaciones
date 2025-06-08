@@ -13,6 +13,9 @@ clave_caesar = 4
 prime_1 = 7
 prime_2 = 13
 
+public = 19
+private = 307
+
 def data_matrix_build():
     data_matrix = []
     #Abre la imagen y la transforma a pixel
@@ -42,7 +45,6 @@ def data_matrix_build():
 
 #Cifrado Cesar
 def caesar_cipher(matrix):
-    print(len(matrix))
     for i in range(0,len(matrix)):
 
         #Separa los paquetes en 3 bytes
@@ -60,14 +62,9 @@ def caesar_cipher(matrix):
 
         #Los valores que se pasan de 8 bits se regresan a 0 y pasa todos los valores a binario
         for j in range(0,len(aux_array)):
-            print("antes de resta")
-            print(f"Sin caesar: {aux_array[j] - clave_caesar}")
-            print(f"Con caesar: {aux_array[j]}")
+
             while aux_array[j] > 255:
                 aux_array[j] = aux_array[j] - 256
-            print("despues de resta")
-            print(f"Sin caesar: {aux_array[j] - clave_caesar}")
-            print(f"Con caesar: {aux_array[j]}")
             aux_array[j] = bin(aux_array[j])[2:]
 
         #Por como funciona la operacion de pasar a bineario, este bloque de codigo le agrega los 0 que faltan para que sean 8 bits
@@ -79,19 +76,43 @@ def caesar_cipher(matrix):
 
         matrix[i] = aux_array[0] + aux_array[1] + aux_array[2]
 
-    print (len(matrix))
     print ("Terminado cifrado simetrico")
     return matrix
 
 # Cifrado Asimetrico
 def asymetric_cipher(matrix):
+    cipher_matrix = []
+    
+    print()
+    n = prime_1 * prime_2
+    phi = (prime_1 - 1) * (prime_2 - 1)
+
+    print(f"n       : {n}")
+    print(f"phi     : {phi}")
+    print(f"public key  : ({public},{n})")
+    print(f"private key : ({private},{n})")
+    print()
+
+    for i in range(0,len(matrix)):
+        primero = matrix[i][:8]
+        segundo = matrix[i][8:16]
+        tercero = matrix[i][16:24]
+
+        aux_array = [primero, segundo, tercero]
+
+        for j in range(0,len(aux_array)):
+            aux = bin(pow(int(aux_array[j],2),public) % n)[2:]
+            if (len(aux)) < 8:
+                for k in range(0,8 - len(aux)):
+                    aux = "0" + aux
+        
+        cipher_matrix.append(aux_array[0] + aux_array[1] + aux_array[2])
 
     print("Terminado cifrado asimetrico")
-    return matrix
+    return cipher_matrix
 
 
 def save(matrix):
-    print(len(matrix))
     with open(paq_path,'w+') as archivo:
         for i in matrix:
             archivo.write(i + "\n")

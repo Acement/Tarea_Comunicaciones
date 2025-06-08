@@ -10,7 +10,10 @@ expected_data   = width_img * height_img
 ID_tran         = 235
 ID_recep        = 135
 
+## Llave privada
+private_key = [307,91]
 
+##Abre el paquete
 def open_package():
     package_array = []
     with open(package_path,"r") as archivo:
@@ -20,7 +23,7 @@ def open_package():
         package_array.append(i.replace("\n",''))
     return package_array
 
-def check_sum(package):
+'''def check_sum(package):
     aux_array = []
     for i in package:
         total_paq = 0
@@ -68,7 +71,29 @@ def check_id(package):
             aux_array.append("ERROR")
             exit
 
-    return aux_array
+    return aux_array'''
+
+## Decifrado asimetrico
+
+def decipher_asimetric(matrix):
+    decipher_matrix = []
+
+    for i in range(0,len(matrix)):
+        primero = matrix[i][:8]
+        segundo = matrix[i][8:16]
+        tercero = matrix[i][16:24]
+
+        aux_array = [primero, segundo, tercero]
+
+        for j in range(0,len(aux_array)):
+            aux = bin(pow(int(aux_array[j],2),private_key[0]) % private_key[1])[2:]
+            if (len(aux)) < 8:
+                for k in range(0,8 - len(aux)):
+                    aux = "0" + aux
+        
+        decipher_matrix.append(aux_array[0] + aux_array[1] + aux_array[2])
+
+    return decipher_matrix
 
 def image_builder(img_array):
     img_string          = ""
@@ -84,19 +109,16 @@ def image_builder(img_array):
         processed_img_array.append(img_string[(width_img * i):(width_img * (i+1))])
 
     for i in processed_img_array:
-        print(len(i))
         print(i)
-    print(len(processed_img_array))
-
-    
 
 if __name__ == '__main__':
     package = open_package()
-    print(package)
+    '''print(package)
     package_checked = check_sum(package)
     print(package_checked)
     package_sorted = check_order(package_checked)
     print(package_sorted)
     img_array = check_id(package_sorted)
-    print(img_array)
+    print(img_array)'''
+    img_array = decipher_asimetric(package)
     image_builder(img_array)
