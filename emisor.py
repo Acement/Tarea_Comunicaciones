@@ -2,7 +2,7 @@ import serial
 import time
 
 # === CONFIGURA ESTO PRIMERO ===
-PUERTO = "/dev/ttyACM2"       # Cambia según tu PC (ej: 'COM4', '/dev/ttyUSB0', etc.)
+PUERTO = "/dev/ttyACM0"       # Cambia según tu PC (ej: 'COM4', '/dev/ttyUSB0', etc.)
 BAUDIOS = 9600
 TIEMPO_ENTRE_PAQUETES = 0.3  # segundos entre paquetes
 
@@ -43,6 +43,7 @@ while(True):
         time.sleep(TIEMPO_ENTRE_PAQUETES)
     paquete = None
     print("Serie Terminada")
+    arduino.close()
 
 arduino.close()
 print("✅ Todos los datos fueron enviados.")
