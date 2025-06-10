@@ -11,7 +11,7 @@ ID_tran         = 235
 ID_recep        = 135
 
 ## Llave privada
-private_key = [307,91]
+private_key = [31,259]
 
 ##Abre el paquete
 def open_package():
@@ -86,11 +86,19 @@ def decipher_asimetric(matrix):
         aux_array = [primero, segundo, tercero]
 
         for j in range(0,len(aux_array)):
-            aux = bin(pow(int(aux_array[j],2),private_key[0]) % private_key[1])[2:]
-            if (len(aux)) < 8:
-                for k in range(0,8 - len(aux)):
-                    aux = "0" + aux
-        
+            aux = int(aux_array[j],2)
+            aux_array[j] = bin(pow(int(aux_array[j],2),private_key[0]) % private_key[1])[2:]
+            if (len(aux_array[j])) < 8:
+                for k in range(0,8 - len(aux_array[j])):
+                    aux_array[j] = "0" + aux_array[j]
+            if (len(aux_array[j])) > 8:
+                print(f"Antes de cifrado: {aux}")
+                print(aux_array[j])
+                print(int(aux_array[j],2))
+                print(len(aux_array[j]))
+            
+
+
         decipher_matrix.append(aux_array[0] + aux_array[1] + aux_array[2])
 
     return decipher_matrix

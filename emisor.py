@@ -2,7 +2,7 @@ import serial
 import time
 
 # === CONFIGURA ESTO PRIMERO ===
-PUERTO = "/dev/ttyACM0"       # Cambia según tu PC (ej: 'COM4', '/dev/ttyUSB0', etc.)
+PUERTO = "/dev/ttyACM4"       # Cambia según tu PC (ej: 'COM4', '/dev/ttyUSB0', etc.)
 BAUDIOS = 9600
 TIEMPO_ENTRE_PAQUETES = 0.3  # segundos entre paquetes
 

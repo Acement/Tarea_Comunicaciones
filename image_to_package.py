@@ -10,11 +10,11 @@ ID_recep    = 135
 
 clave_caesar = 4
 
-prime_1 = 7
-prime_2 = 13
+prime_1 = 37
+prime_2 = 7
 
-public = 19
-private = 307
+public = 7
+private = 31
 
 def data_matrix_build():
     data_matrix = []
@@ -89,9 +89,15 @@ def asymetric_cipher(matrix):
 
     print(f"n       : {n}")
     print(f"phi     : {phi}")
+    print(f"e       : {public}")
     print(f"public key  : ({public},{n})")
     print(f"private key : ({private},{n})")
     print()
+
+    for i in range(0,phi):
+        if ((i * public) % phi) == 1 and i > 1 and i < phi:
+            print
+            print(i)
 
     for i in range(0,len(matrix)):
         primero = matrix[i][:8]
@@ -100,11 +106,20 @@ def asymetric_cipher(matrix):
 
         aux_array = [primero, segundo, tercero]
 
+
+
         for j in range(0,len(aux_array)):
-            aux = bin(pow(int(aux_array[j],2),public) % n)[2:]
-            if (len(aux)) < 8:
-                for k in range(0,8 - len(aux)):
-                    aux = "0" + aux
+            aux = int(aux_array[j],2)
+            aux_array[j] = bin(pow(int(aux_array[j],2),public) % n)[2:]
+            #print(f"Despues de cifrado  : {int(aux_array[j],2)}")
+            if (len(aux_array[j])) < 8:
+                for k in range(0,8 - len(aux_array[j])):
+                    aux_array[j] = "0" + aux_array[j]
+            if(len(aux_array)) > 8 or int(aux_array[j],2) > 255:
+                print(f"Antes de cifrado: {aux}")
+                print(aux_array[j])
+                print(int(aux_array[j],2))
+                print(len(aux_array[j]))
         
         cipher_matrix.append(aux_array[0] + aux_array[1] + aux_array[2])
 
